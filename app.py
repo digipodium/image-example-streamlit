@@ -26,7 +26,7 @@ if choice =='upload image':
         # create a address for image path
         path = os.path.join(UPLOAD_FOLDER,imgdata.name)
         # save file to upload folder
-        im.save(path,format=os.path.splitext(path)[1].replace('.',''))
+        im.save(path,format=imgdata.type.split('/')[1])
         # saves info to db
         sess = open_db()
         imdb = db.Image(path=path)
