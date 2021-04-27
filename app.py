@@ -46,12 +46,26 @@ if choice == 'view uploads':
     
     # show the image names in sidebar to select one
     select_img = st.sidebar.radio("select an image",images)
+    if os.path.exists(select_img.path):
+        # load the image obj using selected image path
+        im = Image.open(select_img.path)
+        # show the image, fill the area available
+        st.image(im,use_column_width=True)
 
-    # load the image obj using selected image path
-    im = Image.open(select_img.path)
-    # show the image, fill the area available
-    st.image(im,use_column_width=True)
-
+if choice =='remove uploads':
+    sess = open_db()
+    images = sess.query(db.Image).all()
+    sess.close()
+    
+    # show the image names in sidebar to select one
+    select_img = st.sidebar.radio("select an image",images)
+    if select_img and st.button("remove"):
+        sess = open_db()
+        sess.query(db.Image).filter(db.Image.id==select_img.id).delete()
+        if os.path.exists(select_img.path):
+            os.unlink(select_img.path)
+        sess.commit()
+        sess.close()
 
 
 

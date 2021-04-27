@@ -15,10 +15,10 @@ class Image(Base):
     uploaded_on = Column(DateTime,default=datetime.now)
 
     def __str__(self):
-        return self.path
+        return f'{self.path}-{self.id}'
     
     def __repr__(self) -> str:
-        return self.path
+        return f'{self.path}-{self.id}'
 
 # create database
 if __name__ == "__main__":
